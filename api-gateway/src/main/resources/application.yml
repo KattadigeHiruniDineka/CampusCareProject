@@ -1,0 +1,154 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+
+      # =========================
+      # CORS CONFIGURATION
+      # =========================
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+
+            allowedHeaders:
+              - "*"
+
+            exposedHeaders:
+              - "*"
+
+            allowCredentials: true
+
+      # =========================
+      # ROUTES
+      # =========================
+
+      routes:
+
+        # =========================
+        # USER SERVICE
+        # =========================
+        - id: user-service
+          uri: ${USER_SERVICE_URL:http://user-service:8081}
+          predicates:
+            - Path=/auth/**,/users/**
+
+        # =========================
+        # REQUEST SERVICE
+        # =========================
+        - id: request-service
+          uri: ${REQUEST_SERVICE_URL:http://request-service:8082}
+          predicates:
+            - Path=/requests/**
+
+        # =========================
+        # DEPARTMENT SERVICE
+        # =========================
+        - id: department-service
+          uri: ${DEPARTMENT_SERVICE_URL:http://department-service:8083}
+          predicates:
+            - Path=/departments/**
+
+        # =========================
+        # NOTIFICATION SERVICE
+        # =========================
+        - id: notification-service
+          uri: ${NOTIFICATION_SERVICE_URL:http://notification-service:8084}
+          predicates:
+            - Path=/notifications/**
+
+        # =========================
+        # USER SWAGGER
+        # =========================
+        - id: user-service-docs
+          uri: ${USER_SERVICE_URL:http://user-service:8081}
+          predicates:
+            - Path=/user-docs/**
+          filters:
+            - RewritePath=/user-docs/(?<segment>.*), /${segment}
+
+        # =========================
+        # REQUEST SWAGGER
+        # =========================
+        - id: request-service-docs
+          uri: ${REQUEST_SERVICE_URL:http://request-service:8082}
+          predicates:
+            - Path=/request-docs/**
+          filters:
+            - RewritePath=/request-docs/(?<segment>.*), /${segment}
+
+        # =========================
+        # DEPARTMENT SWAGGER
+        # =========================
+        - id: department-service-docs
+          uri: ${DEPARTMENT_SERVICE_URL:http://department-service:8083}
+          predicates:
+            - Path=/department-docs/**
+          filters:
+            - RewritePath=/department-docs/(?<segment>.*), /${segment}
+
+        # =========================
+        # NOTIFICATION SWAGGER
+        # =========================
+        - id: notification-service-docs
+          uri: ${NOTIFICATION_SERVICE_URL:http://notification-service:8084}
+          predicates:
+            - Path=/notification-docs/**
+          filters:
+            - RewritePath=/notification-docs/(?<segment>.*), /${segment}
+
+
+# =====================================
+# CAMPUSCARE
+# =====================================
+
+campuscare:
+  client-origin: ${CLIENT_ORIGIN:http://localhost:3000}
+
+
+# =====================================
+# JWT
+# =====================================
+
+jwt:
+  secret: ${JWT_SECRET:campuscare-super-secret-key-for-jwt-signing-2026}
+
+
+# =====================================
+# DOWNSTREAM API KEYS
+# =====================================
+
+downstream:
+  user-service-key: ${USER_API_KEY:user-service-key}
+
+  request-service-key: ${REQUEST_API_KEY:request-service-key}
+
+  department-service-key: ${DEPARTMENT_API_KEY:department-service-key}
+
+  notification-service-key: ${NOTIFICATION_API_KEY:notification-service-key}
+
+
+# =====================================
+# RATE LIMIT
+# =====================================
+
+rate-limit:
+  max-requests: ${RATE_LIMIT_MAX:20}
+
+  window-ms: ${RATE_LIMIT_WINDOW_MS:60000}

@@ -1,0 +1,72 @@
+services:
+
+  user-service:
+    build: ./user-service
+    container_name: campuscare-user-service
+    ports:
+      - "8081:8081"
+    environment:
+      API_KEY: user-service-key
+      JWT_SECRET: campuscare-super-secret-key-for-jwt-signing-2026
+
+  request-service:
+    build: ./request-service
+    container_name: campuscare-request-service
+    ports:
+      - "8082:8082"
+    environment:
+      API_KEY: request-service-key
+
+  department-service:
+    build: ./department-service
+    container_name: campuscare-department-service
+    ports:
+      - "8083:8083"
+    environment:
+      API_KEY: department-service-key
+
+  notification-service:
+    build: ./notification-service
+    container_name: campuscare-notification-service
+    ports:
+      - "8084:8084"
+    environment:
+      API_KEY: notification-service-key
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: campuscare-api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      JWT_SECRET: campuscare-super-secret-key-for-jwt-signing-2026
+
+      USER_SERVICE_URL: http://user-service:8081
+      REQUEST_SERVICE_URL: http://request-service:8082
+      DEPARTMENT_SERVICE_URL: http://department-service:8083
+      NOTIFICATION_SERVICE_URL: http://notification-service:8084
+
+      USER_API_KEY: user-service-key
+      REQUEST_API_KEY: request-service-key
+      DEPARTMENT_API_KEY: department-service-key
+      NOTIFICATION_API_KEY: notification-service-key
+
+      CLIENT_ORIGIN: http://localhost:3000
+      RATE_LIMIT_MAX: 20
+      RATE_LIMIT_WINDOW_MS: 60000
+
+    depends_on:
+      - user-service
+      - request-service
+      - department-service
+      - notification-service
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: campuscare-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-gateway

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusCare - Student Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= LANDING / LOGIN AREA ================= -->
+
+<div id="authLayout">
+
+    <div class="landing">
+
+        <div class="brand-big">
+            <div class="cc-logo">CC</div>
+            <div>
+                <h1>CampusCare</h1>
+                <p>University Service Management</p>
+            </div>
+        </div>
+
+        <div class="landing-content">
+
+            <div class="landing-text">
+                <span class="eyebrow">STUDENT SUPPORT PORTAL</span>
+
+                <h2>
+                    Everything you need<br>
+                    on campus, in one place.
+                </h2>
+
+                <p>
+                    Submit service requests, follow progress,
+                    discover departments and stay updated
+                    without the paperwork.
+                </p>
+
+                <div class="features">
+                    <span>✓ Fast service requests</span>
+                    <span>✓ Real-time request status</span>
+                    <span>✓ Secure student account</span>
+                </div>
+            </div>
+
+            <div class="auth-card">
+
+                <!-- LOGIN -->
+                <section id="view-login" class="auth-view active">
+
+                    <h2>Welcome back</h2>
+
+                    <p class="muted">
+                        Sign in to continue to CampusCare.
+                    </p>
+
+                    <form id="loginForm">
+
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required
+                        >
+
+                        <button type="submit" class="primary-btn">
+                            Sign in →
+                        </button>
+
+                    </form>
+
+                    <p id="loginMsg" class="form-msg"></p>
+
+                    <button
+                        class="text-btn"
+                        onclick="showView('register')">
+                        Create account
+                    </button>
+
+                </section>
+
+
+                <!-- REGISTER -->
+                <section id="view-register" class="auth-view">
+
+                    <h2>Create your account</h2>
+
+                    <p class="muted">
+                        Register as a university student.
+                    </p>
+
+                    <form id="registerForm">
+
+                        <label>Full name</label>
+                        <input
+                            type="text"
+                            name="fullName"
+                            placeholder="Full name"
+                            required
+                        >
+
+                        <label>Student ID</label>
+                        <input
+                            type="text"
+                            name="studentId"
+                            placeholder="IT12345"
+                            required
+                        >
+
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="At least 6 characters"
+                            minlength="6"
+                            required
+                        >
+
+                        <button type="submit" class="primary-btn">
+                            Create account →
+                        </button>
+
+                    </form>
+
+                    <p id="registerMsg" class="form-msg"></p>
+
+                    <button
+                        class="text-btn"
+                        onclick="showView('login')">
+                        Already have an account? Sign in
+                    </button>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN APPLICATION ================= -->
+
+<div id="appLayout">
+
+    <!-- TOP NAVIGATION -->
+
+    <header class="topbar">
+
+        <div class="logo-area">
+
+            <div class="cc-small">CC</div>
+
+            <div>
+                <strong>CampusCare</strong>
+                <small>Student Portal</small>
+            </div>
+
+        </div>
+
+        <!-- IMPORTANT: app.js needs this -->
+        <nav id="nav"></nav>
+
+        <div id="userBadge"></div>
+
+    </header>
+
+
+    <main class="app-main">
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="view-dashboard" class="view">
+
+            <div class="page-header">
+
+                <div>
+                    <span class="eyebrow">OVERVIEW</span>
+                    <h1>Dashboard</h1>
+                </div>
+
+                <button
+                    class="primary-btn small"
+                    onclick="showView('newrequest')">
+                    + New request
+                </button>
+
+            </div>
+
+
+            <div class="student-card">
+
+                <div class="avatar">U</div>
+
+                <div>
+                    <strong>Student</strong>
+                    <p id="studentEmail">student@example.com</p>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-heading">
+
+                <h2>STUDENT DASHBOARD</h2>
+
+                <p>
+                    Good to see you.
+                    Here is what is happening with your campus
+                    services today.
+                </p>
+
+            </div>
+
+
+            <div id="dashboardSummary" class="summary-grid">
+                Loading...
+            </div>
+
+
+            <div class="content-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Recent requests</h2>
+                            <p>Your latest service requests</p>
+                        </div>
+
+                        <button
+                            class="link-btn"
+                            onclick="showView('myrequests')">
+                            View all →
+                        </button>
+                    </div>
+
+                    <div id="recentRequests">
+                        <p class="empty">No recent requests.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Quick access</h2>
+                            <p>Common CampusCare actions</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-grid">
+
+                        <button onclick="showView('departments')">
+                            <span>▦</span>
+                            <strong>Departments</strong>
+                            <small>Find a service</small>
+                        </button>
+
+                        <button onclick="showView('newrequest')">
+                            <span>＋</span>
+                            <strong>New request</strong>
+                            <small>Ask for support</small>
+                        </button>
+
+                        <button onclick="showView('notifications')">
+                            <span>♢</span>
+                            <strong>Notifications</strong>
+                            <small>View updates</small>
+                        </button>
+
+                        <button onclick="showView('profile')">
+                            <span>◯</span>
+                            <strong>My profile</strong>
+                            <small>Manage details</small>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= DEPARTMENTS ================= -->
+
+        <section id="view-departments" class="view">
+
+            <div class="page-header">
+
+                <div>
+                    <span class="eyebrow">CAMPUS SERVICES</span>
+                    <h1>Departments</h1>
+                    <p>Find the right department for your request.</p>
+                </div>
+
+                <button
+                    id="refreshDepartments"
+                    class="secondary-btn">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div id="departmentsList" class="cards-grid">
+                Loading...
+            </div>
+
+        </section>
+
+
+        <!-- ================= NEW REQUEST ================= -->
+
+        <section id="view-newrequest" class="view">
+
+            <div class="page-header">
+
+                <div>
+                    <span class="eyebrow">STUDENT SUPPORT</span>
+                    <h1>New Request</h1>
+                    <p>Tell us what you need help with.</p>
+                </div>
+
+            </div>
+
+
+            <div class="form-panel">
+
+                <form id="requestForm">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Request Type</label>
+
+                            <select name="requestType" required>
+
+                                <option value="">
+                                    Select request type
+                                </option>
+
+                                <option value="IT_SUPPORT">
+                                    IT Support
+                                </option>
+
+                                <option value="ACADEMIC">
+                                    Academic Support
+                                </option>
+
+                                <option value="FINANCE">
+                                    Finance
+                                </option>
+
+                                <option value="LIBRARY">
+                                    Library
+                                </option>
+
+                                <option value="FACILITIES">
+                                    Facilities
+                                </option>
+
+                                <option value="OTHER">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Department</label>
+
+                            <select
+                                id="departmentSelect"
+                                name="departmentId"
+                                required>
+
+                                <option value="">
+                                    Loading departments...
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Priority</label>
+
+                            <select name="priority">
+
+                                <option value="LOW">
+                                    Low
+                                </option>
+
+                                <option value="MEDIUM" selected>
+                                    Medium
+                                </option>
+
+                                <option value="HIGH">
+                                    High
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Description</label>
+
+                        <textarea
+                            name="description"
+                            rows="6"
+                            placeholder="Describe your issue or request..."
+                            required></textarea>
+
+                    </div>
+
+
+                    <button type="submit" class="primary-btn">
+                        Submit request →
+                    </button>
+
+                    <p id="requestMsg" class="form-msg"></p>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= MY REQUESTS ================= -->
+
+        <section id="view-myrequests" class="view">
+
+            <div class="page-header">
+
+                <div>
+                    <span class="eyebrow">SERVICE HISTORY</span>
+                    <h1>My Requests</h1>
+                    <p>Track all your submitted requests.</p>
+                </div>
+
+                <button
+                    id="refreshRequests"
+                    class="secondary-btn">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div id="requestsList" class="request-list">
+                Loading...
+            </div>
+
+        </section>
+
+
+        <!-- ================= REQUEST DETAIL ================= -->
+
+        <section id="view-requestdetail" class="view">
+
+            <div class="page-header">
+
+                <div>
+                    <span class="eyebrow">REQUEST</span>
+                    <h1>Request Details</h1>
+                </div>
+
+                <button
+                    class="secondary-btn"
+                    onclick="showView('myrequests')">
+                    ← Back
+                </button>
+
+            </div>
+
+            <div id="requestDetail"></div>
+
+        </section>
+
+
+        <!-- ================= NOTIFICATIONS ================= -->
+
+        <section id="view-notifications" class="view">
+
+            <div class="page-header">
+
+                <div>
+                    <span class="eyebrow">UPDATES</span>
+                    <h1>Notifications</h1>
+                    <p>Stay updated with your campus services.</p>
+                </div>
+
+                <button
+                    id="refreshNotifications"
+                    class="secondary-btn">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div id="notificationsList" class="notification-list">
+                Loading...
+            </div>
+
+        </section>
+
+
+        <!-- ================= PROFILE ================= -->
+
+        <section id="view-profile" class="view">
+
+            <div class="page-header">
+
+                <div>
+                    <span class="eyebrow">ACCOUNT</span>
+                    <h1>My Profile</h1>
+                    <p>Manage your student account details.</p>
+                </div>
+
+            </div>
+
+
+            <div class="form-panel">
+
+                <form id="profileForm">
+
+                    <div class="form-group">
+
+                        <label>Full Name</label>
+
+                        <input
+                            type="text"
+                            name="fullName"
+                            placeholder="Your full name">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Student ID</label>
+
+                        <input
+                            type="text"
+                            name="studentId"
+                            placeholder="IT12345">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Email</label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="you@example.com">
+
+                    </div>
+
+
+                    <button type="submit" class="primary-btn">
+                        Save changes
+                    </button>
+
+                    <p id="profileMsg" class="form-msg"></p>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <span>CC</span>
+        CampusCare Student Support Portal
+    </footer>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>

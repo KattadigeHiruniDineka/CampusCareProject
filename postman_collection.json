@@ -1,0 +1,227 @@
+{
+  "info": {
+    "name": "CampusCare API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "gateway", "value": "http://localhost:8080" },
+    { "key": "userService", "value": "http://localhost:8081" },
+    { "key": "requestService", "value": "http://localhost:8082" },
+    { "key": "departmentService", "value": "http://localhost:8083" },
+    { "key": "notificationService", "value": "http://localhost:8084" },
+    { "key": "token", "value": "" },
+    { "key": "userId", "value": "" },
+    { "key": "requestId", "value": "" },
+    { "key": "departmentId", "value": "" },
+    { "key": "notificationId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1. Auth & Users (via Gateway)",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Jane Student\",\n  \"email\": \"jane@campus.edu\",\n  \"password\": \"password123\",\n  \"studentId\": \"STU001\"\n}" },
+            "url": "{{gateway}}/auth/register"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"jane@campus.edu\",\n  \"password\": \"password123\"\n}" },
+            "url": "{{gateway}}/auth/login"
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway}}/users/{{userId}}"
+          }
+        },
+        {
+          "name": "Update User Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Jane A. Student\",\n  \"studentId\": \"STU001\"\n}" },
+            "url": "{{gateway}}/users/{{userId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Departments (via Gateway)",
+      "item": [
+        {
+          "name": "Create Department",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"IT Services\",\n  \"description\": \"Handles all technology requests\",\n  \"contactEmail\": \"it@campus.edu\",\n  \"location\": \"Building A, Room 101\"\n}" },
+            "url": "{{gateway}}/departments"
+          }
+        },
+        {
+          "name": "Get All Departments",
+          "request": { "method": "GET", "url": "{{gateway}}/departments" }
+        },
+        {
+          "name": "Get Department by ID",
+          "request": { "method": "GET", "url": "{{gateway}}/departments/{{departmentId}}" }
+        },
+        {
+          "name": "Update Department",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"description\": \"Updated description\"\n}" },
+            "url": "{{gateway}}/departments/{{departmentId}}"
+          }
+        },
+        {
+          "name": "Delete Department",
+          "request": { "method": "DELETE", "url": "{{gateway}}/departments/{{departmentId}}" }
+        }
+      ]
+    },
+    {
+      "name": "3. Service Requests (via Gateway)",
+      "item": [
+        {
+          "name": "Create Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"studentId\": {{userId}},\n  \"departmentId\": {{departmentId}},\n  \"requestType\": \"IT Support\",\n  \"description\": \"Laptop not connecting to WiFi\",\n  \"priority\": \"HIGH\"\n}" },
+            "url": "{{gateway}}/requests"
+          }
+        },
+        {
+          "name": "Get All Requests",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway}}/requests"
+          }
+        },
+        {
+          "name": "Get Request by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway}}/requests/{{requestId}}"
+          }
+        },
+        {
+          "name": "Update Request Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"IN_PROGRESS\"\n}" },
+            "url": "{{gateway}}/requests/{{requestId}}"
+          }
+        },
+        {
+          "name": "Delete Request",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway}}/requests/{{requestId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Notifications (via Gateway)",
+      "item": [
+        {
+          "name": "Create Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": {{userId}},\n  \"title\": \"Request Update\",\n  \"message\": \"Your IT support request is now in progress.\"\n}" },
+            "url": "{{gateway}}/notifications"
+          }
+        },
+        {
+          "name": "Get Notifications for User",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway}}/notifications/{{userId}}"
+          }
+        },
+        {
+          "name": "Mark Notification as Read",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway}}/notifications/{{notificationId}}/read"
+          }
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{gateway}}/notifications/{{notificationId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Security Demonstration (Direct to Services)",
+      "item": [
+        {
+          "name": "User Service - Valid API Key",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "user-service-key" }],
+            "url": "{{userService}}/users/{{userId}}"
+          }
+        },
+        {
+          "name": "User Service - Missing API Key (expect 401)",
+          "request": {
+            "method": "GET",
+            "url": "{{userService}}/users/{{userId}}"
+          }
+        },
+        {
+          "name": "User Service - Invalid API Key (expect 401)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "wrong-key" }],
+            "url": "{{userService}}/users/{{userId}}"
+          }
+        },
+        {
+          "name": "Gateway - Protected route without token (expect 401)",
+          "request": {
+            "method": "GET",
+            "url": "{{gateway}}/requests"
+          }
+        }
+      ]
+    }
+  ]
+}
