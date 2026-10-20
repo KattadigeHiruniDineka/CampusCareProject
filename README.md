@@ -196,7 +196,7 @@ every endpoint, both through the gateway and directly against each service
 - [x] Dockerfiles for every component
 - [x] Root `docker-compose.yml`
 - [x] System starts with `docker compose up`
-- [x ] Postman/API tests completed — run the provided collection
+- [x] Postman/API tests completed — run the provided collection
 
 
 
