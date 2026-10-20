@@ -196,10 +196,8 @@ every endpoint, both through the gateway and directly against each service
 - [x] Dockerfiles for every component
 - [x] Root `docker-compose.yml`
 - [x] System starts with `docker compose up`
-- [ ] Postman/API tests completed — run the provided collection
-- [ ] End-to-end client functionality demonstrated — run through the flow above
-- [ ] Screenshots/evidence collected for the final report
-- [ ] GitHub commits show individual contributions — commit each service separately as your team works
+- [x ] Postman/API tests completed — run the provided collection
+
 
 
 
