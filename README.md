@@ -133,7 +133,7 @@ the gateway (`RateLimitingFilter`). Fire more than 20 requests quickly
 observe `HTTP 429 Too Many Requests` once the limit is exceeded. Adjust via
 `RATE_LIMIT_MAX` / `RATE_LIMIT_WINDOW_MS` env vars in `docker-compose.yml`.
 
-## CORS Demonstration (Section 10)
+## CORS Demonstration (Section 11)
 
 The gateway only allows the origin configured in `CLIENT_ORIGIN`
 (`http://localhost:3000` by default). A request from any other origin
@@ -141,7 +141,7 @@ The gateway only allows the origin configured in `CLIENT_ORIGIN`
 gateway with `fetch`) will be blocked by the browser due to the missing
 CORS headers — capture this in dev tools for the report.
 
-## Database Schema (Section 11)
+## Database Schema (Section 12)
 
 - **users**: id, name, email, password (BCrypt hash), student_id, created_at
 - **service_requests**: id, student_id, department_id, request_type,
