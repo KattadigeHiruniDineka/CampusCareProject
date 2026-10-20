@@ -4,6 +4,10 @@ A distributed microservices system built for the Service-Oriented Computing
 practical assignment. Four independent Spring Boot microservices sit behind
 a single API Gateway, fronted by a unified web client.
 
+--- 
+### 🔐 Login Page
+
+![CampusCare Login Page](screenshots/login-page.png)
 ## Architecture
 
 ```
